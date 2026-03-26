@@ -5,7 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface PlayerGameweekScoreRepository extends JpaRepository<PlayerGameweekScoreEntity, Long> {
+
+    Optional<PlayerGameweekScoreEntity> findByPlayer_IdAndGameweek(Long playerId, int gameweek);
+
+    List<PlayerGameweekScoreEntity> findByGameweekOrderByPointsDesc(int gameweek);
 
     @Query("SELECT SUM(s.points) FROM PlayerGameweekScoreEntity s WHERE s.player.id = :playerId")
     Long sumPointsForPlayer(@Param("playerId") Long playerId);
